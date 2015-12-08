@@ -10,18 +10,14 @@ import controller.Tokenizer;
 
 public class BagOfWords {
 
-	private static HashMap<String, Integer> vocabulary; 
-	public static int totalWordCount = 0;
+	public HashMap<String, Integer> bagOfWords; 
+	public int totalWordCount = 0;
 	
-	public static void main(String[] args){
-		readAllWordsInCategory("F");
-		System.out.println(vocabulary.toString());
-		//readAllWordsInCategory("M");
-		//System.out.println(vocabulary.toString());
-		System.out.println(totalWordCount);
+	public BagOfWords() {
+		bagOfWords = new HashMap<String, Integer>();
 	}
 	
-	public static void readAllWordsInCategory(String category){
+	public void readAllWordsInCategory(String category, BagOfWords bow){
 		File folder = new File("training/"+Definitions.SET+"/"+category);
 		File[] listOfFiles = folder.listFiles();
 		
@@ -35,7 +31,6 @@ public class BagOfWords {
 			if (file.isFile() && file.getName().endsWith(".txt")){
 				try {
 					allwords.append(Files.readAllLines(file.toPath(), StandardCharsets.UTF_8));
-					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -44,15 +39,14 @@ public class BagOfWords {
 		}
 		
 		String[] result = Tokenizer.tokenize(allwords.toString());
-		vocabulary = new HashMap<String, Integer>();
 		
 		for (String word : result){
 			totalWordCount++;
-			Integer wordCount = vocabulary.get(word);
+			Integer wordCount = bow.bagOfWords.get(word);
 			if (wordCount == null){
 				wordCount = 0;
 			}
-			vocabulary.put(word, wordCount + 1);
+			bow.bagOfWords.put(word, wordCount + 1);
 		}
 	}
 }
