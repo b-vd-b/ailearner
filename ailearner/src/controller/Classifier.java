@@ -12,7 +12,7 @@ import model.ProbabilityFormula;
 
 public class Classifier implements Definitions {
 	
-	public static String[] getTestFiles(String category){
+	public static String[] getAllTestFiles(String category){
 		File folder = new File(TEST_DIR+"/"+SET+"/"+category);
 		File[] listOfFiles = folder.listFiles();
 		
@@ -34,6 +34,27 @@ public class Classifier implements Definitions {
 		}
 		
 		System.out.println("Went through all the files");
+		
+		String[] result = Tokenizer.tokenize(allwords.toString());
+		
+		return result;
+	}
+	
+	public static String[] getTestFile(File file){
+			
+		StringBuilder allwords = new StringBuilder();
+		
+		System.out.print(file.getName() + "\t| ");
+		if (file.isFile() && file.getName().endsWith(".txt")){
+			try {
+				allwords.append(Files.readAllLines(file.toPath(), StandardCharsets.UTF_8));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+//		System.out.println("Went through the file");
 		
 		String[] result = Tokenizer.tokenize(allwords.toString());
 		
@@ -69,18 +90,46 @@ public class Classifier implements Definitions {
 	
 	public static HashMap<String, Double> classify(String[] input, BagOfWords bow1, BagOfWords bow2){
 		HashMap<String, Double> resultMap = new HashMap<String, Double>();
-		double scoreBow1 = 0.0;
+		
+		/*	First the prior for both categories are calculated	 */
+		double priorA = (bow1.getDocCount()*1.0)/((bow1.getDocCount()+bow2.getDocCount())*1.0);
+		double priorB = (bow2.getDocCount()*1.0)/((bow1.getDocCount()+bow2.getDocCount())*1.0);
+		
+		/*	The score for Category A is calculated,
+		 *  the outcome is put into a HashMap
+		 */
+		
+		double scoreBow1 = 1.0;
 		for (String word : input){
-			scoreBow1 += ProbabilityFormula.getMultinomialWordScore(word, bow1, bow2);
+			scoreBow1 += Math.abs(Math.log(ProbabilityFormula.getMultinomialWordScore(word, bow1, bow2)));
 		}
+		scoreBow1 *= priorA;
 		resultMap.put(CATEGORY_A, scoreBow1);
-		double scoreBow2 = 0.0;
+				
+		
+		/*	The score for Category B is calculated,
+		 *  the outcome is put into a HashMap
+		 */
+		double scoreBow2 = 1.0;
 		for (String word : input){
-			scoreBow2 += ProbabilityFormula.getMultinomialWordScore(word, bow2, bow1);
+			scoreBow2 += Math.abs(Math.log(ProbabilityFormula.getMultinomialWordScore(word, bow2, bow1)));
 		}
+		scoreBow2 *= priorB;
 		resultMap.put(CATEGORY_B, scoreBow2);
+		System.out.print("The file is classified " + verdict(resultMap) + "\t| ");
 		return resultMap;
 		
 	}
 
+	public static String verdict(HashMap<String,Double> scores){
+		String result ="";
+		if (scores.get(CATEGORY_A)>scores.get(CATEGORY_B)){
+			result = CATEGORY_A;
+		}else if (scores.get(CATEGORY_B)>scores.get(CATEGORY_A)){
+			result = CATEGORY_B;
+		}else {
+			result = "equal score";
+		}
+		return result;
+	}
 }

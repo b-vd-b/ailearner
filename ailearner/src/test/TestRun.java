@@ -3,6 +3,9 @@ package test;
 import model.BagOfWords;
 import model.Definitions;
 import model.ProbabilityFormula;
+
+import java.io.File;
+
 import controller.*;
 
 public class TestRun implements Definitions {
@@ -20,7 +23,13 @@ public class TestRun implements Definitions {
 		System.out.println(CATEGORY_A+"WordCount: \t\t\t" + bow1.distinctWordCount);
 		System.out.println(CATEGORY_B+"WordCount: \t\t\t" + bow2.distinctWordCount);
 		System.out.println("TotalDistinctWordCount: \t" + ProbabilityFormula.totalDistinctWords);
-		System.out.println("Whuhahahaha: " + Classifier.classify(Classifier.getRandomTestFile(CATEGORY_A), bow1, bow2));
+		File folder = new File(TEST_DIR+"/"+SET+"/"+CATEGORY_A);
+		File[] listOfFiles = folder.listFiles();
+		for (int i=0; i < listOfFiles.length; i++){
+			File file = listOfFiles[i];
+			System.out.println("Scores: " + Classifier.classify(Classifier.getTestFile(file), bow1, bow2));
+		}
+		
 	}
 
 }

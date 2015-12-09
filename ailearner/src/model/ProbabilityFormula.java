@@ -9,13 +9,14 @@ public final class ProbabilityFormula implements Definitions {
 	/*
 	 * Gets the score of a given input, against a Bag of Words.
 	 * 
-	 * Output is always a number < 1.
+	 * Output is always a number <= 1.
 	 */
 	public static double getMultinomialWordScore(String input, BagOfWords bow1, BagOfWords bow2) {
 		if (bow1.bagOfWords.get(input) != null) {
+			//System.out.println((bow1.bagOfWords.get(input)+SMOOTHING)/(bow1.totalWordCount+(SMOOTHING*(totalDistinctWords))));
 			return (bow1.bagOfWords.get(input)+SMOOTHING)/(bow1.totalWordCount+(SMOOTHING*(totalDistinctWords)));
 		} else {
-			return 0.0;
+			return 1.0;
 		}
 	}
 	

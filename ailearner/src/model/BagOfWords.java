@@ -15,9 +15,14 @@ public class BagOfWords implements Definitions {
 	public HashMap<String, Integer> bagOfWords; 
 	public int totalWordCount = 0;
 	public int distinctWordCount = 0;
+	private int totalDocumentCount = 0;
 	
 	public BagOfWords() {
 		bagOfWords = new HashMap<String, Integer>();
+	}
+	
+	public int getDocCount(){
+		return totalDocumentCount;
 	}
 	
 	public void readAllWordsInCategory(String category, BagOfWords bow){
@@ -27,6 +32,9 @@ public class BagOfWords implements Definitions {
 		System.out.println(folder.getAbsolutePath());
 		
 		StringBuilder allwords = new StringBuilder();
+		
+		totalDocumentCount = listOfFiles.length;
+		System.out.println("TOTAALDOCUMENTCOUNT: " + totalDocumentCount);
 		
 		for (int i=0; i < listOfFiles.length; i++){
 			File file = listOfFiles[i];
