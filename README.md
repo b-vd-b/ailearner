@@ -11,20 +11,20 @@ In the `model.Definitions.java`, the definitions of the classifier are set, ther
 
 Your directory structure should be as follows:
 ```
-*git cloning directory*
+<git cloning directory>
 |_ ailearner
  |_ bin
  |_ src
- |_ TRAINING_DIR             | *training* in example config
-  |_ SET                     | *blogs* in example config
-   |_ CATEGORY_A             | *F* in example config
-   |_ CATEGORY_B             | *M* in example config
-    |_ *The training files*
- |_ TEST_DIR                 | *test* in example config
-  |_ SET                     | *blogs* in example config
-   |_ CATEGORY_A             | *F* in example config
-   |_ CATEGORY_B             | *M* in example config
-    |_ *The files to classify against the training files*
+ |_ TRAINING_DIR             | "training" in example config
+ ||_ SET                     | "blogs" in example config
+ | |_ CATEGORY_A             | "F" in example config
+ | |_ CATEGORY_B             | "M" in example config
+ |  |_ <The training files>
+ |_ TEST_DIR                 | "test" in example config
+  |_ SET                     | "blogs" in example config
+   |_ CATEGORY_A             | "F" in example config
+   |_ CATEGORY_B             | "M" in example config
+    |_ <The files to classify against the training files>
 ```
 
 In the `test.TestRun.java` file, an example running configuration is found. You can run this and see the outcome of the classifier.
