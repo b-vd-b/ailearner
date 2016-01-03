@@ -101,7 +101,7 @@ public class Classifier implements Definitions {
 		
 		double scoreBow1 = 1.0;
 		for (String word : input){
-			scoreBow1 += Math.abs(Math.log(ProbabilityFormula.getMultinomialWordScore(word, bow1, bow2)));
+			scoreBow1 += Math.abs(Math.log(ProbabilityFormula.getMultinomialWordScore(word, bow1)));
 		}
 		scoreBow1 *= priorA;
 		resultMap.put(CATEGORY_A, scoreBow1);
@@ -112,7 +112,7 @@ public class Classifier implements Definitions {
 		 */
 		double scoreBow2 = 1.0;
 		for (String word : input){
-			scoreBow2 += Math.abs(Math.log(ProbabilityFormula.getMultinomialWordScore(word, bow2, bow1)));
+			scoreBow2 += Math.abs(Math.log(ProbabilityFormula.getMultinomialWordScore(word, bow2)));
 		}
 		scoreBow2 *= priorB;
 		resultMap.put(CATEGORY_B, scoreBow2);

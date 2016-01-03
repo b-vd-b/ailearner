@@ -5,12 +5,14 @@ import model.Definitions;
 import model.ProbabilityFormula;
 
 import java.io.File;
+import java.util.Arrays;
 
 import controller.*;
 
 public class TestRun implements Definitions {
 	
 	public static void main(String[] args){
+		System.out.println("Them stopwords: "+Arrays.toString(STOPWORDS));
 		BagOfWords bow1 = new BagOfWords();
 		bow1.readAllWordsInCategory(CATEGORY_A, bow1);
 		//System.out.println(bow1.bagOfWords.toString());
